@@ -4,6 +4,12 @@ import 'package:flutter_complete_guide/dummy_data.dart';
 class MealDetailScreen extends StatelessWidget {
   static const routeName = '/meal-detail';
 
+  final void Function(String) favFunction;
+  final bool Function(String) isFav;
+
+  const MealDetailScreen(
+      {super.key, required this.favFunction, required this.isFav});
+
   Widget buildSectionTitle(BuildContext context, String text) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
@@ -84,10 +90,8 @@ class MealDetailScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.delete),
-        onPressed: () {
-          Navigator.of(context).pop(mealId);
-        },
+        child: Icon(isFav(mealId) ? Icons.star : Icons.star_border),
+        onPressed: () => favFunction(mealId),
       ),
     );
   }
